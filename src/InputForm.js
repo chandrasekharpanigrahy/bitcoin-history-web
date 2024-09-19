@@ -6,6 +6,9 @@ import axios from 'axios';
 import './InputForm.css';
 
 const FormComponent = () => {
+    const [dateToPrice, setDateToPrice] = useState(null);
+    const [max, setMax] = useState(null);
+    const [min, setMin] = useState(null);
     const [from, setFrom] = useState(new Date());
     const [to, setTo] = useState(new Date());
     const [conversionRate, setConversionRate] = useState('');
@@ -14,16 +17,19 @@ const FormComponent = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            
-            const url = "http://localhost:8080/v1/bitcoin/history?from="+moment(from).format('YYYY-MM-DD')+"&to="
-            + moment(to).format('YYYY-MM-DD') + "&currency=" + currency + "&value=" + conversionRate;
+
+            const url = "http://localhost:8080/v1/bitcoin/history?from=" + moment(from).format('YYYY-MM-DD') + "&to="
+                + moment(to).format('YYYY-MM-DD') + "&currency=" + currency + "&value=" + conversionRate;
             const response = await axios.get(url);
+            setDateToPrice(response.data.dateToPrice);
+            setMax(response.data.max);
+            setMin(response.data.min);
             console.log('Form submitted successfully:', response.data);
         } catch (error) {
-          console.error('Error submitting form:', error);
+            console.error('Error submitting form:', error);
         }
     }
-   
+
     return (
         <div className="form-container">
             <form onSubmit={handleSubmit}>
@@ -52,6 +58,14 @@ const FormComponent = () => {
                     />
                 </div>
                 <button type="submit">Submit</button>
+                {dateToPrice && (
+                    <ul>
+                        {Object.entries(dateToPrice).map(([key, value]) => (
+
+                            <li key={key}> {key}: {value} <strong>{value===max ? "-Max":""} {value===min ? "-Min":""}</strong></li>
+                        ))}
+                    </ul>
+                )}
             </form>
         </div>
     );
