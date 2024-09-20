@@ -62,7 +62,7 @@ const FormComponent = () => {
                     <ul>
                         {Object.entries(dateToPrice).map(([key, value]) => (
 
-                            <li key={key}> {key}: {value} <strong>{value===max ? "-Max":""} {value===min ? "-Min":""}</strong></li>
+                            <li key={key}> {key}: {value} <strong>{value===max ? " (high)":""} {value===min ? " (low)":""}</strong></li>
                         ))}
                     </ul>
                 )}
