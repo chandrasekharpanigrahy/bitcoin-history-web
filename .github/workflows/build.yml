@@ -15,7 +15,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22.8.0'
-      - run: curl -i http://20.75.94.82:8080/v1/bitcoin/history?from=2024-09-16&to=2024-09-18&currency=USD&value=2
+      #- run: curl -i http://20.75.94.82:8080/v1/bitcoin/history?from=2024-09-16&to=2024-09-18&currency=USD&value=2
+      - run: ping 20.75.94.82
       - run: npm ci
       - run: npm run build --if-present
       - run: npm start
